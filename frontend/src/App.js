@@ -92,6 +92,7 @@ function App() {
     <div className="container">
       <h2>Create Employee Account</h2>
       <form onSubmit={handleCreateAccount} className="form">
+        {/* Employee ID */}
         <label>
           Employee ID:
           <input
@@ -99,9 +100,12 @@ function App() {
             type="text"
             value={empId}
             onChange={(e) => setEmpId(e.target.value)}
+            placeholder="Enter Employee ID"
             required
           />
         </label>
+
+        {/* Name */}
         <label>
           Name:
           <input
@@ -109,9 +113,12 @@ function App() {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            placeholder="Enter Full Name"
             required
           />
         </label>
+
+        {/* Designation */}
         <label>
           Designation:
           <input
@@ -119,22 +126,33 @@ function App() {
             type="text"
             value={designation}
             onChange={(e) => setDesignation(e.target.value)}
+            placeholder="Enter Designation"
             required
           />
         </label>
-        <div>
+
+        {/* DevOps Tools Selection */}
+        <div className="checkbox-group">
           <label>Choose your favorite DevOps tools:</label>
-          {['Git', 'Linux', 'Shell Scripting', 'Maven', 'Jenkins', 'Docker', 'Kubernetes', 'AWS', 'Terraform'].map((tool) => (
-            <label key={tool}>
-              <input
-                type="checkbox"
-                value={tool}
-                onChange={handleToolChange}
-              />
+          {[
+            "Git",
+            "Linux",
+            "Shell Scripting",
+            "Maven",
+            "Jenkins",
+            "Docker",
+            "Kubernetes",
+            "AWS",
+            "Terraform",
+          ].map((tool) => (
+            <label key={tool} className="checkbox-item">
+              <input type="checkbox" value={tool} onChange={handleToolChange} />
               {tool}
             </label>
           ))}
         </div>
+
+        {/* Password */}
         <label>
           Password:
           <input
@@ -142,15 +160,38 @@ function App() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            placeholder="Enter Password"
             required
           />
         </label>
-        <button className="button" type="submit">Create Account</button>
+
+        {/* Profile Picture Upload */}
+        <label>
+          Upload Profile Picture:
+          <input
+            className="input"
+            type="file"
+            accept="image/*"
+            onChange={(e) => setProfileImage(e.target.files[0])}
+          />
+        </label>
+
+        {/* Submit Button */}
+        <button className="button" type="submit">
+          Create Account
+        </button>
       </form>
-      <button className="linkButton" onClick={() => setPage('home')}>Back</button>
-      {responseMessage && <p>{responseMessage}</p>}
+
+      {/* Back Button */}
+      <button className="linkButton" onClick={() => setPage("home")}>
+        Back
+      </button>
+
+      {/* Response Message */}
+      {responseMessage && <p className="responseMessage">{responseMessage}</p>}
     </div>
   );
+
 
   const renderLoginPage = () => (
     <div className="container">
@@ -176,7 +217,9 @@ function App() {
             required
           />
         </label>
+        <div>
         <button className="button" type="submit">Login</button>
+        </div>
       </form>
       <button className="linkButton" onClick={() => setPage('home')}>Back</button>
       {responseMessage && <p>{responseMessage}</p>}

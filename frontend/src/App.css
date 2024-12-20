@@ -1,20 +1,66 @@
-body {
-  font-family: Arial, sans-serif;
+/* General Reset */
+body, h1, button, div {
   margin: 0;
   padding: 0;
-  background-color: #f4f4f9;
-  color: #333;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
 }
 
+/* Body Styling */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f4f4f4;
+}
+
+/* Container Styling */
 .container {
+  background-color: white;
+  padding: 30px;
+  width: 400px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
-  margin-top: 50px;
 }
 
+/* Header Styling */
 .header {
-  font-size: 2.5rem;
-  color: #4CAF50;
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 20px;
 }
+
+/* Button Container */
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+/* Button Styling */
+.button {
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  padding: 25px 0;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 68%; /* Ensures equal size for buttons */
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+.button:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
 
 .welcomeContainer {
   background-image: url('https://cdn.wallpapersafari.com/56/27/MXkow9.jpg');
