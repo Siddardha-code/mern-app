@@ -6,8 +6,7 @@ services:
       context: ./frontend  # Path to your frontend directory containing Dockerfile
     ports:
       - "3000:80"  # Maps port 80 of the container to port 3000 on the host
-    networks:
-      - mynetwork
+      
     depends_on:
       - backend
 
@@ -16,9 +15,13 @@ services:
       context: ./backend  # Path to your backend directory containing Dockerfile
     ports:
       - "5000:5000"  # Maps port 5000 of the container to port 5000 on the host
-    networks:
-      - mynetwork
+    depends_on:
+      - mongodb
+    env_file:
+      - .env  # Load environment variables from .env file
 
-networks:
-  mynetwork:
-    driver: bridge
+  mongodb:
+    image: mongo:latest  # Official MongoDB image from Docker Hub
+    container_name: mongodb
+    ports:
+      - "27017:27017"  # Maps port 27017 of the container to port 27017 on the host
