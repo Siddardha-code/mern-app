@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
 
 function App() {
-  const [name, setName] = useState('');
-  const [designation, setDesignation] = useState('');
-  const [empId, setEmpId] = useState('');
+  const [name, setName] = useState("");
+  const [designation, setDesignation] = useState("");
+  const [empId, setEmpId] = useState("");
   const [favTools, setFavTools] = useState([]);
-  const [password, setPassword] = useState('');
-  const [loginName, setLoginName] = useState('');
-  const [responseMessage, setResponseMessage] = useState('');
-  const [page, setPage] = useState('home');
+  const [password, setPassword] = useState("");
+  const [loginName, setLoginName] = useState("");
+  const [responseMessage, setResponseMessage] = useState("");
+  const [page, setPage] = useState("home");
+  const [profileImage, setProfileImage] = useState(null); // Add state for profile image
 
   const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
@@ -17,74 +18,88 @@ function App() {
   const handleToolChange = (event) => {
     const { value, checked } = event.target;
     setFavTools((prevTools) =>
-      checked ? [...prevTools, value] : prevTools.filter((tool) => tool !== value)
+      checked
+        ? [...prevTools, value]
+        : prevTools.filter((tool) => tool !== value)
     );
   };
 
   const handleCreateAccount = async (event) => {
     event.preventDefault();
-    const employee = { name, designation, empId, favTools, password };
+    const employee = {
+      name,
+      designation,
+      empId,
+      favTools,
+      password,
+      profileImage,
+    }; // Add profileImage to the employee object
 
     try {
       const response = await fetch(`${backendUrl}/api/employees`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(employee),
       });
       const data = await response.json();
       setResponseMessage(data.message);
-      setName('');
-      setDesignation('');
-      setEmpId('');
+      setName("");
+      setDesignation("");
+      setEmpId("");
       setFavTools([]);
-      setPassword('');
+      setPassword("");
+      setProfileImage(null); // Reset the profile image state
     } catch (error) {
-      setResponseMessage('Error connecting to the backend');
-      console.error(error);  // Log the error for debugging
+      setResponseMessage("Error connecting to the backend");
+      console.error(error); // Log the error for debugging
     }
   };
 
   const handleLogin = async (event) => {
-  event.preventDefault();
-  const loginData = { empId: loginName, password };
+    event.preventDefault();
+    const loginData = { empId: loginName, password };
 
-  try {
-    const response = await fetch(`${backendUrl}/api/employees/login`, {
-      method: 'POST',  // Use POST for login
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(loginData),
-    });
+    try {
+      const response = await fetch(`${backendUrl}/api/employees/login`, {
+        method: "POST", // Use POST for login
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loginData),
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    if (response.ok) {
-      setPage('welcome');
-      // Set employee details after successful login
-      setEmpId(data.empId);
-      setName(data.name);
-      setDesignation(data.designation);
-      setFavTools(data.favTools);
-      setPassword('');  // Reset the password field
-    } else {
-      setResponseMessage(data.message);  // Show error message if any
+      if (response.ok) {
+        setPage("welcome");
+        // Set employee details after successful login
+        setEmpId(data.empId);
+        setName(data.name);
+        setDesignation(data.designation);
+        setFavTools(data.favTools);
+        setPassword(""); // Reset the password field
+      } else {
+        setResponseMessage(data.message); // Show error message if any
+      }
+
+      setLoginName("");
+    } catch (error) {
+      setResponseMessage("Error connecting to the backend");
+      console.error(error); // Log the error for debugging
     }
-
-    setLoginName('');
-  } catch (error) {
-    setResponseMessage('Error connecting to the backend');
-    console.error(error);  // Log the error for debugging
-  }
-};
+  };
 
   const renderHomePage = () => (
     <div className="container">
       <h1 className="header">Employee Portal</h1>
-      <button className="button" onClick={() => setPage('createAccount')}>Create Employee Account</button>
-      <button className="button" onClick={() => setPage('login')}>Employee Login</button>
+      <button className="button" onClick={() => setPage("createAccount")}>
+        Create Employee Account
+      </button>
+      <button className="button" onClick={() => setPage("login")}>
+        Employee Login
+      </button>
     </div>
   );
 
@@ -192,7 +207,6 @@ function App() {
     </div>
   );
 
-
   const renderLoginPage = () => (
     <div className="container">
       <h2>Employee Login</h2>
@@ -218,10 +232,14 @@ function App() {
           />
         </label>
         <div>
-        <button className="button" type="submit">Login</button>
+          <button className="button" type="submit">
+            Login
+          </button>
         </div>
       </form>
-      <button className="linkButton" onClick={() => setPage('home')}>Back</button>
+      <button className="linkButton" onClick={() => setPage("home")}>
+        Back
+      </button>
       {responseMessage && <p>{responseMessage}</p>}
     </div>
   );
@@ -244,20 +262,22 @@ function App() {
             <td>{empId}</td>
             <td>{name}</td>
             <td>{designation}</td>
-            <td>{favTools.join(', ') || 'None'}</td>
+            <td>{favTools.join(", ") || "None"}</td>
           </tr>
         </tbody>
       </table>
-      <button className="linkButton" onClick={() => setPage('home')}>Back to Home</button>
+      <button className="linkButton" onClick={() => setPage("home")}>
+        Back to Home
+      </button>
     </div>
   );
 
   return (
     <div>
-      {page === 'home' && renderHomePage()}
-      {page === 'createAccount' && renderCreateAccountPage()}
-      {page === 'login' && renderLoginPage()}
-      {page === 'welcome' && renderWelcomePage()}
+      {page === "home" && renderHomePage()}
+      {page === "createAccount" && renderCreateAccountPage()}
+      {page === "login" && renderLoginPage()}
+      {page === "welcome" && renderWelcomePage()}
     </div>
   );
 }
