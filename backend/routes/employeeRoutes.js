@@ -4,12 +4,28 @@ const multer = require("multer");
 const Employee = require("../models/Employee");
 
 const router = express.Router();
+
+// Configure multer for file upload with size limit and file type check
 const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB size limit
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith("image/")) {
+      cb(null, true); // Accept image files
+    } else {
+      cb(new Error("Only image files are allowed"), false); // Reject non-image files
+    }
+  },
+});
 
 // Create employee with profile image
 router.post("/", upload.single("profileImage"), async (req, res) => {
   const { name, designation, empId, favTools, password } = req.body;
+
+  // Log the incoming request for debugging
+  console.log("Request Body:", req.body);
+  console.log("File Data:", req.file);
 
   try {
     const newEmployee = new Employee({
@@ -29,6 +45,7 @@ router.post("/", upload.single("profileImage"), async (req, res) => {
       employee: savedEmployee,
     });
   } catch (error) {
+    console.error("Error saving employee:", error);
     res
       .status(500)
       .json({ message: "Error saving employee", error: error.message });
