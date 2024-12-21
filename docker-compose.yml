@@ -21,7 +21,7 @@ services:
       - ./backend/.env  # Load environment variables from .env file
 
   mongodb:
-    image: mongo:latest  # Official MongoDB image from Docker Hub
+    image: mongo:4.4  # Official MongoDB image from Docker Hub
     container_name: mongodb
     ports:
       - "27017:27017"  # Maps port 27017 of the container to port 27017 on the host
