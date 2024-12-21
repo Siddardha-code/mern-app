@@ -9,19 +9,17 @@ services:
 
     depends_on:
       - backend
-
+  mongodb:
+      image: mongo:4.4  # Official MongoDB image from Docker Hub
+      container_name: mongodb
+      ports:
+        - "27017:27017" # Maps port 27017 of the container to port 27017 on the host
   backend:
     build:
       context: ./backend  # Path to your backend directory containing Dockerfile
     ports:
       - "5000:5000"  # Maps port 5000 of the container to port 5000 on the host
-    depends_on:
-      - mongodb
     env_file:
       - ./backend/.env  # Load environment variables from .env file
 
-  mongodb:
-    image: mongo:4.4  # Official MongoDB image from Docker Hub
-    container_name: mongodb
-    ports:
-      - "27017:27017"  # Maps port 27017 of the container to port 27017 on the host
+    
