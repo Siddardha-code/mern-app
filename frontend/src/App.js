@@ -26,36 +26,38 @@ function App() {
 
   const handleCreateAccount = async (event) => {
     event.preventDefault();
-    const employee = {
-      name,
-      designation,
-      empId,
-      favTools,
-      password,
-      profileImage,
-    }; // Add profileImage to the employee object
+
+    // Use FormData to handle file uploads
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("designation", designation);
+    formData.append("empId", empId);
+    formData.append("favTools", favTools.join(",")); // Store tools as a comma-separated string
+    formData.append("password", password);
+    formData.append("profileImage", profileImage); // Append the image file
 
     try {
       const response = await fetch(`${backendUrl}/api/employees`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(employee),
+        body: formData, // Send as FormData
       });
+
       const data = await response.json();
       setResponseMessage(data.message);
+
+      // Reset form fields
       setName("");
       setDesignation("");
       setEmpId("");
       setFavTools([]);
       setPassword("");
-      setProfileImage(null); // Reset the profile image state
+      setProfileImage(null);
     } catch (error) {
       setResponseMessage("Error connecting to the backend");
-      console.error(error); // Log the error for debugging
+      console.error(error);
     }
   };
+
 
   const handleLogin = async (event) => {
     event.preventDefault();
